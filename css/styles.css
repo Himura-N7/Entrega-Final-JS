@@ -24,6 +24,12 @@ body {
     line-height: 1.6;
     color: var(--dark-gray);
     background-color: var(--light-gray);
+    overflow-x: hidden; /* Solo prevenir scroll horizontal */
+}
+
+/* Clase para bloquear scroll cuando sea necesario */
+body.no-scroll {
+    overflow: hidden !important;
 }
 
 .container {
@@ -170,6 +176,7 @@ nav {
     background: #ddd;
     outline: none;
     -webkit-appearance: none;
+    appearance: none;
 }
 
 .filtro-precio input[type="range"]::-webkit-slider-thumb {

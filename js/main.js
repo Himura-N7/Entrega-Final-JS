@@ -107,6 +107,27 @@ function configurarEventListeners() {
             cerrarModalCarrito();
         }
     });
+
+    // Cerrar modal con tecla Escape
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+            const modal = document.getElementById('carrito-modal');
+            if (!modal.classList.contains('hidden')) {
+                cerrarModalCarrito();
+            }
+        }
+    });
+
+    // Verificar scroll periódicamente (fallback de seguridad)
+    setInterval(() => {
+        const modal = document.getElementById('carrito-modal');
+        if (modal && modal.classList.contains('hidden')) {
+            // Si el modal está cerrado pero el scroll está bloqueado, restaurarlo
+            if (document.body.style.overflow === 'hidden') {
+                document.body.style.overflow = 'auto';
+            }
+        }
+    }, 1000);
 }
 
 // Cambiar categoría activa
@@ -179,6 +200,9 @@ function renderizarProductos(productos) {
     asignarEventListenersProductos();
 }
 
+// Hacer la función global para que sea accesible desde carrito.js
+window.renderizarProductos = renderizarProductos;
+
 // Asignar event listeners a los elementos de productos
 function asignarEventListenersProductos() {
     // Botones de cantidad
@@ -210,11 +234,18 @@ function cambiarCantidad(id, cambio) {
     const cantidadActual = productosContador[id] || 0;
     const nuevaCantidad = Math.max(0, cantidadActual + cambio);
     
-    // Verificar límite de stock
+    // Verificar límite de stock disponible
     const producto = gestorProductos.obtenerProductoPorId(id);
-    if (producto && nuevaCantidad <= producto.stock) {
-        productosContador[id] = nuevaCantidad;
-        document.querySelector(`.cantidad-display[data-id="${id}"]`).textContent = nuevaCantidad;
+    if (producto) {
+        // Calcular stock disponible (stock original - cantidad ya en carrito)
+        const itemEnCarrito = carrito.items.find(item => item.id === producto.id);
+        const cantidadEnCarrito = itemEnCarrito ? itemEnCarrito.cantidad : 0;
+        const stockDisponible = producto.stock - cantidadEnCarrito;
+        
+        if (nuevaCantidad <= stockDisponible) {
+            productosContador[id] = nuevaCantidad;
+            document.querySelector(`.cantidad-display[data-id="${id}"]`).textContent = nuevaCantidad;
+        }
     }
 }
 
@@ -236,20 +267,8 @@ function agregarProductoAlCarrito(id) {
             productosContador[id] = 0;
             document.querySelector(`.cantidad-display[data-id="${id}"]`).textContent = '0';
             
-            // Actualizar stock mostrado
-            const stockElement = document.querySelector(`[data-id="${id}"] .producto-stock`);
-            if (stockElement) {
-                const nuevoStock = producto.stock - cantidad;
-                stockElement.textContent = `Stock: ${nuevoStock}`;
-                
-                // Deshabilitar botón si se agota
-                if (nuevoStock === 0) {
-                    const btnAgregar = document.querySelector(`[data-id="${id}"] .btn-agregar`);
-                    btnAgregar.disabled = true;
-                    btnAgregar.textContent = 'Agotado';
-                    btnAgregar.classList.add('btn-agotado');
-                }
-            }
+            // Actualizar la visualización inmediatamente
+            renderizarProductos(gestorProductos.obtenerProductosFiltrados());
         }
     }
 }
@@ -258,13 +277,28 @@ function agregarProductoAlCarrito(id) {
 function abrirModalCarrito() {
     carrito.renderizarCarrito();
     document.getElementById('carrito-modal').classList.remove('hidden');
-    document.body.style.overflow = 'hidden'; // Prevenir scroll del body
+    document.body.classList.add('no-scroll'); // Usar clase CSS
 }
 
 // Cerrar modal del carrito
 function cerrarModalCarrito() {
     document.getElementById('carrito-modal').classList.add('hidden');
-    document.body.style.overflow = 'auto'; // Restaurar scroll del body
+    document.body.classList.remove('no-scroll'); // Usar clase CSS
+    // Forzar restauración del scroll
+    document.body.style.overflow = 'auto';
+}
+
+// Función auxiliar para restaurar scroll de manera segura
+function restaurarScroll() {
+    document.body.classList.remove('no-scroll');
+    document.body.style.overflow = 'auto';
+    // Forzar reflow para asegurar que el cambio se aplique
+    document.body.offsetHeight;
+}
+
+// Función para prevenir scroll
+function prevenirScroll() {
+    document.body.classList.add('no-scroll');
 }
 
 // Mostrar/ocultar indicador de carga

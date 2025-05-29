@@ -78,8 +78,13 @@ class GestorProductos {
 
     // Buscar productos por nombre
     buscarProductos(termino) {
-        this.terminoBusqueda = termino.toLowerCase();
+        this.terminoBusqueda = this.normalizarTexto(termino.toLowerCase());
         this.aplicarFiltros();
+    }
+
+    // Normalizar texto para búsqueda sin tildes
+    normalizarTexto(texto) {
+        return texto.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
     }
 
     // Aplicar todos los filtros
@@ -87,7 +92,10 @@ class GestorProductos {
         this.productosFiltrados = this.productos.filter(producto => {
             const cumpleCategoria = this.categoriaActual === 'todos' || producto.categoria === this.categoriaActual;
             const cumplePrecio = producto.precio <= this.precioMaximo;
-            const cumpleBusqueda = producto.nombre.toLowerCase().includes(this.terminoBusqueda);
+            
+            // Búsqueda normalizada (sin tildes)
+            const nombreNormalizado = this.normalizarTexto(producto.nombre.toLowerCase());
+            const cumpleBusqueda = nombreNormalizado.includes(this.terminoBusqueda);
             
             return cumpleCategoria && cumplePrecio && cumpleBusqueda;
         });

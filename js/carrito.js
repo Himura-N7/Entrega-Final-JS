@@ -8,20 +8,18 @@ class CarritoCompras {
     // Agregar producto al carrito
     agregarProducto(producto, cantidad = 1) {
         try {
-            // Verificar stock disponible
-            if (!gestorProductos.verificarStock(producto.id, cantidad)) {
-                throw new Error(`Stock insuficiente. Solo quedan ${producto.stock} unidades`);
+            const itemExistente = this.items.find(item => item.id === producto.id);
+            let cantidadEnCarrito = itemExistente ? itemExistente.cantidad : 0;
+            let nuevaCantidadTotal = cantidadEnCarrito + cantidad;
+            
+            // Verificar stock disponible (sin reducir el stock original)
+            if (nuevaCantidadTotal > producto.stock) {
+                throw new Error(`Stock insuficiente. Solo quedan ${producto.stock} unidades disponibles`);
             }
 
-            const itemExistente = this.items.find(item => item.id === producto.id);
-            
             if (itemExistente) {
                 // Si ya existe, aumentar cantidad
-                const nuevaCantidad = itemExistente.cantidad + cantidad;
-                if (!gestorProductos.verificarStock(producto.id, nuevaCantidad)) {
-                    throw new Error(`No puedes agregar más unidades. Stock disponible: ${producto.stock}`);
-                }
-                itemExistente.cantidad = nuevaCantidad;
+                itemExistente.cantidad = nuevaCantidadTotal;
             } else {
                 // Si no existe, agregar nuevo item
                 this.items.push({
@@ -48,10 +46,20 @@ class CarritoCompras {
         const index = this.items.findIndex(item => item.id === parseInt(id));
         if (index !== -1) {
             const producto = this.items[index];
+            
+            // NO restaurar stock aquí, solo eliminar del carrito
             this.items.splice(index, 1);
             this.guardarEnStorage();
             this.actualizarContador();
             this.mostrarNotificacion(`🗑️ ${producto.nombre} eliminado del carrito`, 'info');
+            
+            // Renderizar carrito inmediatamente
+            this.renderizarCarrito();
+            
+            // Actualizar productos en pantalla
+            if (window.renderizarProductos && typeof window.renderizarProductos === 'function') {
+                window.renderizarProductos(gestorProductos.obtenerProductosFiltrados());
+            }
         }
     }
 
@@ -60,14 +68,23 @@ class CarritoCompras {
         const item = this.items.find(item => item.id === parseInt(id));
         if (item) {
             if (nuevaCantidad <= 0) {
+                // Eliminar producto del carrito
                 this.eliminarProducto(id);
             } else {
-                // Verificar stock disponible
+                // Verificar stock disponible (sin modificar el stock original)
                 const producto = gestorProductos.obtenerProductoPorId(id);
                 if (producto && nuevaCantidad <= producto.stock) {
                     item.cantidad = nuevaCantidad;
                     this.guardarEnStorage();
                     this.actualizarContador();
+                    
+                    // Renderizar inmediatamente
+                    this.renderizarCarrito();
+                    
+                    // Actualizar productos en pantalla si es necesario
+                    if (window.renderizarProductos && typeof window.renderizarProductos === 'function') {
+                        window.renderizarProductos(gestorProductos.obtenerProductosFiltrados());
+                    }
                 } else {
                     this.mostrarNotificacion(`❌ Stock insuficiente. Máximo ${producto.stock} unidades`, 'error');
                 }
@@ -77,10 +94,16 @@ class CarritoCompras {
 
     // Vaciar carrito
     vaciarCarrito() {
+        // NO restaurar stock aquí, solo vaciar el carrito
         this.items = [];
         this.guardarEnStorage();
         this.actualizarContador();
         this.mostrarNotificacion('🧹 Carrito vaciado', 'info');
+        
+        // Actualizar productos en pantalla
+        if (window.renderizarProductos && typeof window.renderizarProductos === 'function') {
+            window.renderizarProductos(gestorProductos.obtenerProductosFiltrados());
+        }
     }
 
     // Obtener total del carrito
@@ -262,6 +285,11 @@ class CarritoCompras {
             // Vaciar carrito
             this.vaciarCarrito();
 
+            // Cerrar modal del carrito ANTES de mostrar la confirmación
+            document.getElementById('carrito-modal').classList.add('hidden');
+            document.body.classList.remove('no-scroll'); // Restaurar scroll con clase
+            document.body.style.overflow = 'auto'; // Doble seguridad
+
             // Mostrar confirmación
             await Swal.fire({
                 title: '¡Compra exitosa! 🎉',
@@ -276,11 +304,18 @@ class CarritoCompras {
                 confirmButtonText: 'Entendido'
             });
 
-            // Cerrar modal del carrito
-            document.getElementById('carrito-modal').classList.add('hidden');
+            // Triple seguridad para el scroll
+            document.body.classList.remove('no-scroll');
+            document.body.style.overflow = 'auto';
+            document.body.offsetHeight; // Forzar reflow
 
         } catch (error) {
             console.error('Error procesando compra:', error);
+            
+            // Restaurar scroll en caso de error también
+            document.body.classList.remove('no-scroll');
+            document.body.style.overflow = 'auto';
+            
             Swal.fire({
                 title: 'Error',
                 text: 'Hubo un problema procesando tu compra. Inténtalo nuevamente.',
