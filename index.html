@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OfficeStore - Tienda de Materiales de Oficina</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <!-- Librerías externas -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+</head>
+<body>
+    <div id="loading-spinner" class="loading">
+        <div class="spinner"></div>
+        <p>Cargando productos...</p>
+    </div>
+
+    <header>
+        <div class="container">
+            <h1>🏢 OfficeStore</h1>
+            <p class="subtitle">Tu tienda de confianza para materiales de oficina</p>
+            <nav>
+                <button id="btn-todos-productos" class="nav-btn active">📦 Todos</button>
+                <button id="btn-mostrar-papeleria" class="nav-btn">📎 Papelería</button>
+                <button id="btn-mostrar-tecnologia" class="nav-btn">💻 Tecnología</button>
+                <button id="btn-mostrar-mobiliario" class="nav-btn">🪑 Mobiliario</button>
+                <button id="btn-carrito" class="nav-btn carrito-btn">
+                    🛒 Carrito (<span id="contador-carrito">0</span>)
+                </button>
+            </nav>
+        </div>
+    </header>
+    
+    <main class="container">
+        <section id="filtros" class="filtros-section">
+            <div class="filtro-busqueda">
+                <input type="text" id="buscar" placeholder="🔍 Buscar productos...">
+            </div>
+            <div class="filtro-precio">
+                <label for="precio-max">Precio máximo: $<span id="valor-precio">100000</span></label>
+                <input type="range" id="precio-max" min="0" max="100000" value="100000">
+            </div>
+        </section>
+        
+        <section id="productos-container" class="productos-grid">
+            <!-- Productos dinámicos se cargan aquí -->
+        </section>
+
+        <section id="carrito-modal" class="modal hidden">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>🛒 Mi Carrito de Compras</h2>
+                    <button id="cerrar-modal" class="close-btn">&times;</button>
+                </div>
+                <div id="carrito-contenido" class="modal-body">
+                    <!-- Contenido del carrito -->
+                </div>
+                <div class="modal-footer">
+                    <div id="carrito-total" class="total-section"></div>
+                    <div class="carrito-acciones">
+                        <button id="vaciar-carrito" class="btn btn-secondary">Vaciar Carrito</button>
+                        <button id="finalizar-compra" class="btn btn-primary">Finalizar Compra</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 OfficeStore. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script defer src="js/productos.js"></script>
+    <script defer src="js/carrito.js"></script>
+    <script defer src="js/main.js"></script>
+</body>
+</html>

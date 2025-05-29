@@ -1,0 +1,154 @@
+{
+  "productos": [
+    {
+      "id": 1,
+      "nombre": "Papel Bond A4",
+      "categoria": "papeleria",
+      "tipo": "Resma 500 hojas",
+      "precio": 6000,
+      "imagen": "📄",
+      "descripcion": "Papel bond de alta calidad para impresión y escritura",
+      "stock": 50
+    },
+    {
+      "id": 2,
+      "nombre": "Lápiz HB",
+      "categoria": "papeleria",
+      "tipo": "Grafito #2",
+      "precio": 400,
+      "imagen": "✏️",
+      "descripcion": "Lápiz de grafito ideal para escritura diaria",
+      "stock": 100
+    },
+    {
+      "id": 3,
+      "nombre": "Post-it Amarillo",
+      "categoria": "papeleria",
+      "tipo": "3x3 pulgadas",
+      "precio": 350,
+      "imagen": "📝",
+      "descripcion": "Notas adhesivas reutilizables",
+      "stock": 75
+    },
+    {
+      "id": 4,
+      "nombre": "Grapadora Metálica",
+      "categoria": "papeleria",
+      "tipo": "Tamaño estándar",
+      "precio": 2500,
+      "imagen": "📎",
+      "descripcion": "Grapadora resistente para uso diario",
+      "stock": 25
+    },
+    {
+      "id": 5,
+      "nombre": "Bolígrafos BIC",
+      "categoria": "papeleria",
+      "tipo": "Pack x12 unidades",
+      "precio": 1800,
+      "imagen": "🖊️",
+      "descripcion": "Set de bolígrafos azules de calidad",
+      "stock": 40
+    },
+    {
+      "id": 6,
+      "nombre": "Teclado Inalámbrico",
+      "categoria": "tecnologia",
+      "tipo": "Bluetooth ergonómico",
+      "precio": 8000,
+      "imagen": "⌨️",
+      "descripcion": "Teclado inalámbrico con diseño ergonómico",
+      "stock": 15
+    },
+    {
+      "id": 7,
+      "nombre": "Mouse Óptico",
+      "categoria": "tecnologia",
+      "tipo": "USB con cable",
+      "precio": 5000,
+      "imagen": "🖱️",
+      "descripcion": "Mouse óptico de alta precisión",
+      "stock": 30
+    },
+    {
+      "id": 8,
+      "nombre": "Audífonos Bluetooth",
+      "categoria": "tecnologia",
+      "tipo": "Inalámbricos con micrófono",
+      "precio": 12000,
+      "imagen": "🎧",
+      "descripcion": "Audífonos inalámbricos con cancelación de ruido",
+      "stock": 20
+    },
+    {
+      "id": 9,
+      "nombre": "Cargador USB-C",
+      "categoria": "tecnologia",
+      "tipo": "Universal 65W",
+      "precio": 3000,
+      "imagen": "🔌",
+      "descripcion": "Cargador universal para dispositivos USB-C",
+      "stock": 35
+    },
+    {
+      "id": 10,
+      "nombre": "Monitor LED 24\"",
+      "categoria": "tecnologia",
+      "tipo": "Full HD 1080p",
+      "precio": 45000,
+      "imagen": "🖥️",
+      "descripcion": "Monitor LED de 24 pulgadas con calidad Full HD",
+      "stock": 10
+    },
+    {
+      "id": 11,
+      "nombre": "Silla Escritorio",
+      "categoria": "mobiliario",
+      "tipo": "Ergonómica con respaldo",
+      "precio": 50000,
+      "imagen": "🪑",
+      "descripcion": "Silla ergonómica ajustable para oficina",
+      "stock": 8
+    },
+    {
+      "id": 12,
+      "nombre": "Escritorio de Madera",
+      "categoria": "mobiliario",
+      "tipo": "1.2m x 60cm",
+      "precio": 75000,
+      "imagen": "🗃️",
+      "descripcion": "Escritorio de madera con amplio espacio de trabajo",
+      "stock": 5
+    },
+    {
+      "id": 13,
+      "nombre": "Archivador Metálico",
+      "categoria": "mobiliario",
+      "tipo": "4 cajones con llave",
+      "precio": 40000,
+      "imagen": "🗄️",
+      "descripcion": "Archivador metálico con sistema de seguridad",
+      "stock": 12
+    },
+    {
+      "id": 14,
+      "nombre": "Lámpara LED",
+      "categoria": "mobiliario",
+      "tipo": "Regulable táctil",
+      "precio": 15000,
+      "imagen": "💡",
+      "descripcion": "Lámpara LED con control táctil de intensidad",
+      "stock": 18
+    },
+    {
+      "id": 15,
+      "nombre": "Estante Modular",
+      "categoria": "mobiliario",
+      "tipo": "3 niveles ajustables",
+      "precio": 25000,
+      "imagen": "📚",
+      "descripcion": "Estante modular para organización de oficina",
+      "stock": 15
+    }
+  ]
+}
