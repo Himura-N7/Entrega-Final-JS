@@ -347,6 +347,8 @@ nav {
     align-items: center;
     z-index: 1000;
     backdrop-filter: blur(5px);
+    padding: 10px;
+    box-sizing: border-box;
 }
 
 .modal.hidden {
@@ -361,6 +363,8 @@ nav {
     max-height: 80vh;
     overflow: hidden;
     box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    display: flex;
+    flex-direction: column;
 }
 
 .modal-header {
@@ -567,6 +571,29 @@ nav {
     color: var(--dark-gray);
 }
 
+/* Mejoras para móvil en estados especiales */
+@media (max-width: 480px) {
+    .carrito-vacio,
+    .no-productos {
+        padding: 2rem 1rem;
+    }
+    
+    .icono-vacio,
+    .icono-no-productos {
+        font-size: 3rem;
+    }
+    
+    .carrito-vacio h3,
+    .no-productos h3 {
+        font-size: 1.1rem;
+    }
+    
+    .carrito-vacio p,
+    .no-productos p {
+        font-size: 0.9rem;
+    }
+}
+
 /* Footer */
 footer {
     background: var(--primary-color);
@@ -602,22 +629,72 @@ footer {
     
     .modal-content {
         width: 95%;
+        max-width: 95vw;
         margin: 10px;
+        max-height: 90vh;
+    }
+    
+    .modal-body {
+        max-height: 50vh;
+        padding: 1rem;
     }
     
     .carrito-item {
         flex-direction: column;
         align-items: flex-start;
         gap: 1rem;
+        padding: 0.8rem;
     }
     
     .item-controles {
         width: 100%;
         justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+    }
+    
+    .cantidad-controles {
+        order: 1;
+    }
+    
+    .item-subtotal {
+        order: 2;
+        min-width: auto;
+        text-align: left;
+        font-size: 1.1rem;
+    }
+    
+    .btn-eliminar {
+        order: 3;
+        width: 30px;
+        height: 30px;
+        font-size: 0.9rem;
+    }
+    
+    .modal-footer {
+        padding: 1rem;
+    }
+    
+    .total-info {
+        flex-direction: column;
+        gap: 0.5rem;
+        text-align: center;
+        margin-bottom: 1rem;
+    }
+    
+    .total-precio {
+        font-size: 1.5rem;
     }
     
     .carrito-acciones {
         flex-direction: column;
+        gap: 0.8rem;
+    }
+    
+    .btn {
+        padding: 0.8rem 1rem;
+        font-size: 0.9rem;
+        font-weight: 600;
     }
 }
 
@@ -633,6 +710,113 @@ footer {
     
     .productos-grid {
         grid-template-columns: 1fr;
+    }
+    
+    .modal-content {
+        width: 98%;
+        max-width: 98vw;
+        margin: 5px;
+        max-height: 95vh;
+    }
+    
+    .modal-header {
+        padding: 1rem;
+    }
+    
+    .modal-header h2 {
+        font-size: 1.2rem;
+    }
+    
+    .modal-body {
+        padding: 0.8rem;
+        max-height: 45vh;
+    }
+    
+    .carrito-item {
+        padding: 0.6rem;
+        gap: 0.8rem;
+    }
+    
+    .item-info {
+        gap: 0.8rem;
+    }
+    
+    .item-emoji {
+        font-size: 1.5rem;
+    }
+    
+    .item-detalles h4 {
+        font-size: 0.9rem;
+    }
+    
+    .item-detalles p {
+        font-size: 0.8rem;
+    }
+    
+    .item-precio {
+        font-size: 0.9rem;
+    }
+    
+    .cantidad-controles .btn-cantidad {
+        width: 28px;
+        height: 28px;
+        font-size: 0.9rem;
+    }
+    
+    .cantidad {
+        font-size: 0.9rem;
+        min-width: 20px;
+    }
+    
+    .item-subtotal {
+        font-size: 1rem;
+        font-weight: bold;
+    }
+    
+    .btn-eliminar {
+        width: 28px;
+        height: 28px;
+        font-size: 0.8rem;
+    }
+    
+    .modal-footer {
+        padding: 0.8rem;
+    }
+    
+    .total-info {
+        font-size: 0.9rem;
+    }
+    
+    .total-precio {
+        font-size: 1.3rem;
+    }
+    
+    .btn {
+        padding: 0.7rem 0.8rem;
+        font-size: 0.85rem;
+        font-weight: 600;
+        border-radius: 6px;
+    }
+}
+
+/* Responsive adicional para pantallas muy pequeñas */
+@media (max-width: 360px) {
+    .modal-content {
+        width: 100%;
+        max-width: 100vw;
+        margin: 0;
+        border-radius: 0;
+        max-height: 100vh;
+    }
+    
+    .carrito-acciones {
+        gap: 0.6rem;
+    }
+    
+    .btn {
+        padding: 0.6rem;
+        font-size: 0.8rem;
+        min-height: 44px; /* Tamaño mínimo para touch */
     }
 }
 
